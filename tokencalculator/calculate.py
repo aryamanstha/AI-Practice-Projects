@@ -21,7 +21,12 @@ def show_tokens(text, tokenizer_name):
         token = tokenizer.decode([t]) 
         tokens.append(token)
     return token_count, char_count, tokens
-   
+
+def optimize_prompt(text):
+    filler_words=["a","an","the","or","and","but","if","then","that","this","these","those","of","in","for","on","with","at","by","about","against","between","into","through","during","before","after","above","below","to","from","up","down","in","out","off","over","under","again","further","then","once"]
+    cleaned_text=[word for word in text.lower().split() if word not in filler_words]
+    return len(cleaned_text), " ".join(cleaned_text)
+
 model_name = st.selectbox("Select Model", [model["name"] for model in models])
 
 input_prompt=st.text_area("Enter Text")
@@ -35,5 +40,14 @@ if st.button("Tokenize"):
     else:
         st.write("Please enter some text to tokenize.")
 
+if st.button("Optimize Prompt"):
+    if input_prompt:
+        token_count, optimized_prompt = optimize_prompt(input_prompt)
+        model = next(m["model"] for m in models if m["name"] == model_name)
+        optimized_token_count, optimized_char_count, optimized_tokens = show_tokens(optimized_prompt, model)
+        st.write(f"Optimized Tokens: {optimized_token_count}, Characters: {optimized_char_count}")
+        st.markdown(optimized_tokens)
+    else:
+        st.write("Please enter some text to optimize.")
 
 
