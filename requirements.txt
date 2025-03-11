@@ -2,3 +2,6 @@ openai
 dotenv
 streamlit
 transformers
+anthropic
+langchain
+langchain-openai
