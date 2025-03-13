@@ -5,3 +5,4 @@ transformers
 anthropic
 langchain
 langchain-openai
+langchain-community
