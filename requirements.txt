@@ -6,3 +6,6 @@ anthropic
 langchain
 langchain-openai
 langchain-community
+asyncio
+logging 
+python-json-logger
