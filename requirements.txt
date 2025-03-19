@@ -12,3 +12,4 @@ python-json-logger
 ratelimit
 requests
 tenacity
+pytest
