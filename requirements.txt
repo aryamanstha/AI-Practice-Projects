@@ -21,3 +21,6 @@ unstructured
 python-docx
 langchain_experimental
 fastembed
+sentence-transformers
+qdrant-client
+chromadb
