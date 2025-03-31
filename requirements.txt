@@ -24,3 +24,5 @@ fastembed
 sentence-transformers
 qdrant-client
 chromadb
+meilisearch
+faiss-cpu
