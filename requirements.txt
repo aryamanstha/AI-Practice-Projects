@@ -26,3 +26,14 @@ qdrant-client
 chromadb
 meilisearch
 faiss-cpu
+pydub 
+noisereduce 
+scipy
+librosa
+noisereduce
+librosa
+elevenlabs
+pyannote.audio
+torchaudio
+matplotlib
+webrtcvad
