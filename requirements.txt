@@ -35,5 +35,4 @@ librosa
 elevenlabs
 pyannote.audio
 torchaudio
-matplotlib
-webrtcvad
+twilio
