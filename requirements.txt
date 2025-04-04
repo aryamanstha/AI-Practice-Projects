@@ -36,3 +36,4 @@ elevenlabs
 pyannote.audio
 torchaudio
 twilio
+rich
