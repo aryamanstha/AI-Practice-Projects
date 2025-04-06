@@ -6,6 +6,7 @@ anthropic
 langchain
 langchain-openai
 langchain-community
+langchain-huggingface
 asyncio
 python-json-logger
 ratelimit
