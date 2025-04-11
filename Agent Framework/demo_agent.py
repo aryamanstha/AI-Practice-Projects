@@ -2,6 +2,7 @@ from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import SystemMessage
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
+from langchain_anthropic import ChatAnthropic
 import os
 from dotenv import load_dotenv
 from langchain_community.utilities import GoogleSerperAPIWrapper
@@ -18,6 +19,7 @@ system_message=SystemMessage(
     You can use the search_web tool to search the web for information.
     If you are not sure about the answer, use the search_web tool.""")
 
+
 @tool
 def calculator(x: float, y: float, operation: str) -> float:
     """
@@ -29,29 +31,40 @@ def calculator(x: float, y: float, operation: str) -> float:
     Returns:
         float: The result of the calculation.
     """
+    result = None
     if operation == "add":
-        return x + y
+        result = x + y
     elif operation == "subtract":
-        return x - y
-    elif operation=="multiply":
-        return x*y
-    elif operation =="division":
-        if y==0:
-            return "Error: Division by zero is not allowed"
+        result = x - y
+    elif operation == "multiply":
+        result = x * y
+    elif operation == "divide":
+        if y == 0:
+            result = "Error: Division by zero is not allowed"
         else:
-            return x/y
+            result = x / y
     else:
-        return "Error: Invalid operation"
+        result = "Error: Invalid operation"
 
-search_web_schema = {
-    "type": "object",
-    "properties": {
-        "result": {
-            "type": "float"
-        }
-    },
-    "required": ["result"]
-}
+    result_json = {"result": result}
+    calculator_schema = {
+        "type": "object",
+        "properties": {
+            "result": {
+                "type": ["number", "string"]
+            }
+        },
+        "required": ["result"]
+    }
+
+    try:
+        validate(instance=result_json, schema=calculator_schema)
+    except ValidationError as e:
+        return {"error": f"JSON Validation Error: {e.message}"}
+
+    return result_json
+
+
 @tool
 def search_web(query:str)->str:
     """
@@ -65,6 +78,16 @@ def search_web(query:str)->str:
     search_result = {
         "result": result[:1500]  
     }
+    search_web_schema = {
+        "type": "object",
+        "properties": {
+            "result": {
+                "type": "string"
+            }
+        },
+        "required": ["result"]
+    }
+
     try:
         validate(instance=search_result, schema=search_web_schema)
     except ValidationError as e:
@@ -74,11 +97,11 @@ def search_web(query:str)->str:
     
 tool=[calculator,search_web]
 
-query="What's the current weather in Kathmandu?"
+query="What is 123456*78904?"
 
-model=ChatOpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    model='gpt-4o-mini',
+model=ChatAnthropic(
+    api_key=os.getenv("ANT_API_KEY"),
+    model='claude-3-7-sonnet-latest',
     max_tokens=500
 )
 

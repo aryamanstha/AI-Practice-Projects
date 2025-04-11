@@ -19,7 +19,7 @@ load_dotenv()
 os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
 
 # ========== Initialize Streamlit App ========== #
-st.set_page_config(page_title="Specialized Agent", layout="centered")
+st.set_page_config(page_title="Specialized Agent", layout="wide")
 st.title("Educational Agent")
 
 # ========== Init Session State ========== #

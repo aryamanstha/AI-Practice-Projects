@@ -38,3 +38,5 @@ pyannote.audio
 torchaudio
 twilio
 rich
+datetime
+tavily-python
